@@ -10,6 +10,10 @@ spring:
     oauth2:
       client:
         registration:
+          google:
+            clientId: 910134022884-c9tql5okngeffadd8918apf6borq2ni4.apps.googleusercontent.com
+            clientSecret: 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
+            scope: profile, email
           kakao:
             clientId: 2c164ec54be641f2b7d7780414e435fe
             scope:
@@ -23,6 +27,7 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+
   jpa:
     hibernate:
       ddl-auto: create
