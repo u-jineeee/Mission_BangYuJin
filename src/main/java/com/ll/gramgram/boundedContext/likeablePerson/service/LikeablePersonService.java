@@ -51,7 +51,7 @@ public class LikeablePersonService {
         return likeablePersonRepository.findByFromInstaMemberId(fromInstaMemberId);
     }
 
-    public LikeablePerson getPerson(Integer id) {
+    public LikeablePerson findById(Long id) {
         Optional<LikeablePerson> likeablePerson = this.likeablePersonRepository.findById(id);
         if(likeablePerson.isPresent()){
             return likeablePerson.get();
@@ -61,11 +61,11 @@ public class LikeablePersonService {
     }
 
     @Transactional
-    public RsData<LikeablePerson> delete(LikeablePerson likeablePerson, Long instaId) {
+    public RsData<LikeablePerson> delete(LikeablePerson likeablePerson, Long instaMemberId) {
         String username = likeablePerson.getToInstaMemberUsername();
 
-        if(instaId != likeablePerson.getFromInstaMember().getId()) {
-            return RsData.of("F-1", "삭제권한이 없습니다.");
+        if(instaMemberId != likeablePerson.getFromInstaMember().getId()) {
+            return RsData.of("F-1", "삭제 권한이 없습니다.");
         }
 
         this.likeablePersonRepository.delete(likeablePerson);
