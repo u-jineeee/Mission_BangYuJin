@@ -1,6 +1,7 @@
 spring:
   profiles:
     active: dev
+    include: secret
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://127.0.0.1:3306/gram__dev?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
@@ -11,11 +12,9 @@ spring:
       client:
         registration:
           google:
-            clientId: 910134022884-c9tql5okngeffadd8918apf6borq2ni4.apps.googleusercontent.com
-            clientSecret: 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
             scope: profile, email
+            client-name: Google
           kakao:
-            clientId: 2c164ec54be641f2b7d7780414e435fe
             scope:
             client-name: Kakao
             authorization-grant-type: authorization_code
