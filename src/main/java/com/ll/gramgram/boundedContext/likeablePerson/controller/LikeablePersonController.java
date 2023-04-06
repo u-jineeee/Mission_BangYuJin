@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ public class LikeablePersonController {
     private final Rq rq;
     private final LikeablePersonService likeablePersonService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/add")
     public String showAdd() {
         return "usr/likeablePerson/add";
@@ -39,6 +41,7 @@ public class LikeablePersonController {
         private final int attractiveTypeCode;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/add")
     public String add(@Valid AddForm addForm) {
         RsData<LikeablePerson> createRsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
@@ -50,6 +53,7 @@ public class LikeablePersonController {
         return rq.redirectWithMsg("/likeablePerson/list", createRsData);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/list")
     public String showList(Model model) {
         InstaMember instaMember = rq.getMember().getInstaMember();
@@ -63,10 +67,10 @@ public class LikeablePersonController {
         return "usr/likeablePerson/list";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id){
-        RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(this.likeablePersonService.findById(id),
-                                                                            rq.getMember().getInstaMember().getId());
+        RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(rq.getMember(), id);
 
         return rq.redirectWithMsg("/likeablePerson/list", deleteRsData);
     }
