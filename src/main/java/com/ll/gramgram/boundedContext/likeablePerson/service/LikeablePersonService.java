@@ -56,16 +56,16 @@ public class LikeablePersonService {
     }
 
     @Transactional
-    public RsData<LikeablePerson> delete(Member member, Long id) {
-        LikeablePerson likeablePerson = findById(id).orElse(null);
+    public RsData<LikeablePerson> delete(Member member, LikeablePerson likeablePerson) {
+        if(likeablePerson == null) return RsData.of("F-1", "이미 삭제되었습니다.");
 
         if(!Objects.equals(member.getInstaMember().getId(), likeablePerson.getFromInstaMember().getId())) {
-            return RsData.of("F-1", "삭제 권한이 없습니다.");
+            return RsData.of("F-2", "삭제 권한이 없습니다.");
         }
 
-        String username = likeablePerson.getToInstaMemberUsername();
+        String toInstaMemberUsername = likeablePerson.getToInstaMember().getUsername();
         likeablePersonRepository.delete(likeablePerson);
 
-        return RsData.of("S-1", "%s님이 삭제되었습니다.".formatted(username));
+        return RsData.of("S-1", "%s님이 삭제되었습니다.".formatted(toInstaMemberUsername));
     }
 }

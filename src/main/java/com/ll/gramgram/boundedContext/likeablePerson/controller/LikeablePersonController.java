@@ -70,7 +70,9 @@ public class LikeablePersonController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id){
-        RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(rq.getMember(), id);
+        LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
+
+        RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(rq.getMember(), likeablePerson);
 
         if(deleteRsData.isFail()) return rq.historyBack(deleteRsData);
 
