@@ -177,4 +177,45 @@ public class LikeablePersonControllerTests {
 
         assertThat(likeablePersonService.findById(1L).isPresent()).isEqualTo(false);
     }
+
+    @Test
+    @DisplayName("호감 상대 삭제(호감 상대 존재하지 않음 -> 삭제 안됨)")
+    @WithUserDetails("user3")
+    void t007() throws Exception {
+        //WHEN
+        ResultActions resultActions = mvc
+                .perform(
+                        post("/likeablePerson/delete/100")
+                                .with(csrf())
+                )
+                .andDo(print());
+        //THEN
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("delete"))
+                .andExpect(status().is4xxClientError())
+        ;
+    }
+
+    @Test
+    @DisplayName("호감 상대 삭제(권한이 없음 -> 삭제 안됨)")
+    @WithUserDetails("user2")
+    void t008() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(
+                        post("/likeablePerson/delete/1")
+                                .with(csrf())
+                )
+                .andDo(print());
+
+        // THEN
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("delete"))
+                .andExpect(status().is4xxClientError())
+        ;
+
+        assertThat(likeablePersonService.findById(1L).isPresent()).isEqualTo(true);
+    }
 }
