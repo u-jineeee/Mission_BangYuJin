@@ -6,18 +6,18 @@
 
 <body>
 
-<mai layout:fragment="main">
+<main layout:fragment="main">
     <th:block th:unless="${@rq.member.hasConnectedInstaMember}">
         <div>먼저 본인의 인스타그램 아이디를 입력해주세요.</div>
 
-        <div>
+        <div class="flex justify-center">
             <a href="/instaMember/connect" class="btn btn-link">본인의 인스타그램 아이디 입력하기</a>
         </div>
     </th:block>
 
     <th:block th:if="${@rq.member.hasConnectedInstaMember}">
         <script th:inline="javascript">
-            const myInstaMember = /*[[ ${@rq.member.instaMember} ]]*/ null;
+            const myInstaMemberUsername = /*[[ ${@rq.member.instaMember.username} ]]*/ null;
 
             function AddForm__submit(form) {
                 // username 이(가) 올바른지 체크
@@ -36,7 +36,7 @@
                     return;
                 }
 
-                if (form.username.value == myInstaMember.username) {
+                if (form.username.value === myInstaMemberUsername) {
                     toastWarning('본인을 호감상대로 등록할 수 없습니다.');
                     form.username.focus();
                     return;
@@ -88,7 +88,7 @@
             </div>
         </form>
     </th:block>
-</mai>
+</main>
 </body>
 
 </html>

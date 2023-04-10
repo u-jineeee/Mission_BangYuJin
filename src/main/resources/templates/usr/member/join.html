@@ -45,16 +45,30 @@
         }
     </script>
 
-    <form th:action method="POST" class="p-10 flex flex-col gap-4" onsubmit="JoinForm__submit(this); return false;">
-        <div>
-            <input type="text" name="username" maxlength="30" placeholder="아이디" class="input input-bordered">
+    <h1 class="mb-4">
+        <i class="fa-solid fa-user-plus"></i>
+        회원가입
+    </h1>
+
+    <form th:action method="POST" class="flex flex-col gap-6" onsubmit="LoginForm__submit(this); return false;">
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">아이디</span>
+            </label>
+            <input type="text" name="username" maxlength="30" placeholder="아이디" class="input input-bordered" autofocus/>
         </div>
-        <div>
-            <input type="password" name="password" maxlength="30" placeholder="비밀번호" class="input input-bordered">
+
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">비밀번호</span>
+            </label>
+            <input type="password" name="password" maxlength="30" placeholder="비밀번호" class="input input-bordered"/>
         </div>
-        <div>
-            <input type="submit" value="회원가입" class="btn btn-primary">
-        </div>
+
+        <button class="btn btn-block btn-primary gap-3">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>회원가입</span>
+        </button>
     </form>
 </main>
 
