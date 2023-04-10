@@ -8,7 +8,7 @@
 
 <main layout:fragment="main">
     <th:block th:unless="${@rq.member.hasConnectedInstaMember}">
-        <div>먼저 본인의 인스타그램 아이디를 입력해주세요.</div>
+        <div class="flex justify-center">먼저 본인의 인스타그램 아이디를 입력해주세요.</div>
 
         <div class="flex justify-center">
             <a href="/instaMember/connect" class="btn btn-link">본인의 인스타그램 아이디 입력하기</a>
@@ -54,39 +54,41 @@
             }
         </script>
 
-        <form th:action method="POST" class="p-10 max-w-sm flex flex-col gap-4"
-              onsubmit="AddForm__submit(this); return false;">
-            <div>
-                당신의 인스타ID : <span class="badge" th:text="${@rq.member.instaMember.username}"></span>
-            </div>
-            <div>
-                <input type="text" name="username" autocomplete="off" maxlength="30" placeholder="상대방의 인스타그램 아이디"
-                       class="input input-bordered">
-            </div>
-            <div>
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">외모</span>
-                        <input type="radio" name="attractiveTypeCode" value="1" class="radio focus:bg-red-100">
-                    </label>
+        <div class="flex justify-center">
+            <form th:action method="POST" class="p-10 max-w-sm flex flex-col gap-4"
+                  onsubmit="AddForm__submit(this); return false;">
+                <div class="flex justify-center">
+                    당신의 인스타ID : <span class="badge" th:text="${@rq.member.instaMember.username}"></span>
                 </div>
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">성격</span>
-                        <input type="radio" name="attractiveTypeCode" value="2" class="radio focus:bg-red-100">
-                    </label>
+                <div>
+                    <input type="text" name="username" autocomplete="off" maxlength="30" placeholder="상대방의 인스타그램 아이디"
+                           class="input input-bordered">
                 </div>
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">능력</span>
-                        <input type="radio" name="attractiveTypeCode" value="3" class="radio focus:bg-red-100">
-                    </label>
+                <div>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text">외모</span>
+                            <input type="radio" name="attractiveTypeCode" value="1" class="radio focus:bg-red-100">
+                        </label>
+                    </div>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text">성격</span>
+                            <input type="radio" name="attractiveTypeCode" value="2" class="radio focus:bg-red-100">
+                        </label>
+                    </div>
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text">능력</span>
+                            <input type="radio" name="attractiveTypeCode" value="3" class="radio focus:bg-red-100">
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <input type="submit" value="추가" class="btn btn-primary">
-            </div>
-        </form>
+                <div>
+                    <input type="submit" value="추가" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
     </th:block>
 </main>
 </body>
