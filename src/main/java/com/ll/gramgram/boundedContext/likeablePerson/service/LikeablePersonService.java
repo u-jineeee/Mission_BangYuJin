@@ -31,6 +31,23 @@ public class LikeablePersonService {
             return RsData.of("F-1", "본인을 호감상대로 등록할 수 없습니다.");
         }
 
+        for(LikeablePerson likeablePerson : member.getInstaMember().getFromLikeablePeople()) {
+            if (likeablePerson.getToInstaMember().getUsername().equals(username)) {
+                if( likeablePerson.getAttractiveTypeCode() == attractiveTypeCode)
+                    return RsData.of("F-3", "이미 호감상대로 등록된 유저입니다.");
+
+                String beforeAttractiveType = likeablePerson.getAttractiveTypeDisplayName();
+                likeablePerson.setAttractiveTypeCode(attractiveTypeCode);
+                likeablePersonRepository.save(likeablePerson);
+                String afterAttractiveType = likeablePerson.getAttractiveTypeDisplayName();
+                return RsData.of("S-2", "%s님에 대한 호감정보가 %s에서 %s(으)로 수정되었습니다.".formatted(username, beforeAttractiveType,afterAttractiveType));
+            }
+        }
+
+        if(member.getInstaMember().getFromLikeablePeople().size() >= 10) {
+            return RsData.of("F-4", "호감 표시할 수 있는 유저는 최대 10명입니다.");
+        }
+
         InstaMember fromInstaMember = member.getInstaMember();
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
@@ -51,7 +68,7 @@ public class LikeablePersonService {
         // 너를 좋아하는 유저의 호감표시가 생겼어.
         toInstaMember.addToLikeablePerson(likeablePerson);
 
-        return RsData.of("S-1", "입력하신 인스타유저(%s)를 호감상대로 등록되었습니다.".formatted(username), likeablePerson);
+        return RsData.of("S-1", "인스타유저(%s)를 호감상대로 등록되었습니다.".formatted(username), likeablePerson);
     }
 
     public List<LikeablePerson> findByFromInstaMemberId(Long fromInstaMemberId) {
