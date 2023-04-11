@@ -70,17 +70,14 @@ public class LikeablePersonControllerTests {
                         <input type="text" name="username"
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
-                        <input type="radio" name="attractiveTypeCode" value="1"
+                        <input class="radio radio-primary" type="radio" name="attractiveTypeCode" value="1"
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
-                        <input type="radio" name="attractiveTypeCode" value="2"
+                        <input class="radio radio-primary" type="radio" name="attractiveTypeCode" value="2"
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
-                        <input type="radio" name="attractiveTypeCode" value="3"
+                        <input class="radio radio-primary" type="radio" name="attractiveTypeCode" value="3"
                         """.stripIndent().trim())))
-                .andExpect(content().string(containsString("""
-                        <input type="submit" value="추가"
-                        """.stripIndent().trim())));
         ;
     }
 
@@ -101,7 +98,7 @@ public class LikeablePersonControllerTests {
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
                 .andExpect(handler().methodName("add"))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is3xxRedirection())
         ;
     }
 
@@ -122,7 +119,7 @@ public class LikeablePersonControllerTests {
         resultActions
                 .andExpect(handler().handlerType(LikeablePersonController.class))
                 .andExpect(handler().methodName("add"))
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is3xxRedirection())
         ;
     }
 
@@ -151,7 +148,7 @@ public class LikeablePersonControllerTests {
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
                         <span class="toInstaMember_attractiveTypeDisplayName">성격</span>
-                        """.stripIndent().trim())));
+                        """.stripIndent().trim())))
         ;
     }
 
@@ -217,5 +214,68 @@ public class LikeablePersonControllerTests {
         ;
 
         assertThat(likeablePersonService.findById(1L).isPresent()).isEqualTo(true);
+    }
+
+    @Test
+    @DisplayName("상대방 중복 등록 처리(user3이 user4에게 호감 중복 표시)")
+    @WithUserDetails("user3")
+    void t009() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(post("/likeablePerson/add")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("username", "insta_user4")
+                        .param("attractiveTypeCode", "1")
+                )
+                .andDo(print());
+
+        // THEN
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("add"))
+                .andExpect(status().is4xxClientError())
+        ;
+    }
+
+    @Test
+    @DisplayName("등록 처리 최대 개수 제한(user2 등록된 호감상대 10개, 최대 개수 10개)")
+    @WithUserDetails("user4")
+    void t010() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(post("/likeablePerson/add")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("username", "test_user11")
+                        .param("attractiveTypeCode", "1")
+                )
+                .andDo(print());
+
+        // THEN
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("add"))
+                .andExpect(status().is4xxClientError())
+        ;
+    }
+
+    @Test
+    @DisplayName("상대방 중복 등록 수정 처리(외모 -> 성격 수정)")
+    @WithUserDetails("user3")
+    void t011() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(post("/likeablePerson/add")
+                        .with(csrf()) // CSRF 키 생성
+                        .param("username", "insta_user4")
+                        .param("attractiveTypeCode", "2")
+                )
+                .andDo(print());
+
+        // THEN
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("add"))
+                .andExpect(redirectedUrlPattern("/likeablePerson/list**"))
+        ;
     }
 }
