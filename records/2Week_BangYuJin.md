@@ -37,3 +37,7 @@
   - 로그인 API를 받아오기 위해서 https://developers.naver.com/main/ 에서 `Client ID`와 `Client Secret`을 생성.
   - 네이버는 spring security를 공식적으로 지원하지 않기 때문에 `application.yml`에 `registration` 과 `provider`를 수동으로 설정.
   - 구글, 카카오 로그인과 같이 식별자 아이디를 받아 왔으나 ex) `{"id": 2731659195}` 으로 표현되어 `CustomOAuth2UserService` 에서 `substring`을 이용해 `id` 부분만 잘라내어 저장.
+
+**[리팩토링]**
+- 상숫값을 그대로 사용하기보다는 변수나 yml에 저장해 수정이 필요할 시 직관적으로 확인할 수 있고 쉽게 변경할 수 있도록 하자.
+- 코드가 길어지면 가독성이 떨어진다. 그러니 다양한 메소드를 생성해 코드의 길이를 줄이고 가독성을 높이자.
