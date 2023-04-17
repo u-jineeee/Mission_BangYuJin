@@ -23,7 +23,7 @@ import java.util.Map;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final MemberService memberService;
 
-    // 카카오톡 로그인이 성공할 때 마다 이 함수가 실행된다.
+    // 소셜 로그인이 성공할 때 마다 이 함수가 실행된다.
     @Override
     @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -32,6 +32,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String oauthId = oAuth2User.getName();
 
         String providerTypeCode = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
+
+        // 네이버 로그인은 식별자 아이디만 가져온다.
+        if(providerTypeCode.equals("NAVER")) {
+            oauthId = oauthId.substring(4, oauthId.length()-2);
+        }
 
         String username = providerTypeCode + "__%s".formatted(oauthId);
 

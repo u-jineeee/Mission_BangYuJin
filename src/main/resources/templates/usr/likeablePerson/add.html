@@ -8,7 +8,7 @@
 
 <main layout:fragment="main">
     <th:block th:unless="${@rq.member.hasConnectedInstaMember}">
-        <div>먼저 본인의 인스타그램 아이디를 입력해주세요.</div>
+        <div class="flex justify-center">먼저 본인의 인스타그램 아이디를 입력해주세요.</div>
 
         <div class="flex justify-center">
             <a href="/instaMember/connect" class="btn btn-link">본인의 인스타그램 아이디 입력하기</a>
@@ -54,38 +54,53 @@
             }
         </script>
 
-        <form th:action method="POST" class="p-10 max-w-sm flex flex-col gap-4"
-              onsubmit="AddForm__submit(this); return false;">
-            <div>
-                당신의 인스타ID : <span class="badge" th:text="${@rq.member.instaMember.username}"></span>
+
+        <h1 class="mb-4">
+            <i class="fa-solid fa-heart-circle-plus"></i>
+            호감표시
+        </h1>
+
+        <form th:action method="POST" class="flex flex-col gap-6"
+            onsubmit="AddForm__submit(this); return false;">
+            <div class="flex">
+                <label class="label gap-1">
+                    <span class="label-text"> 내 인스타그램 계정 : </span>
+                    <span class="badge" th:text="${@rq.member.instaMember.username}"></span>
+                </label>
             </div>
-            <div>
-                <input type="text" name="username" autocomplete="off" maxlength="30" placeholder="상대방의 인스타그램 아이디"
-                       class="input input-bordered">
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">인스타그램 계정</span>
+                </label>
+                <input type="text" name="username" placeholder="상대방의 인스타그램 계정" class="input input-bordered" autofocus/>
             </div>
-            <div>
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">외모</span>
-                        <input type="radio" name="attractiveTypeCode" value="1" class="radio focus:bg-red-100">
+
+            <div class="form-control">
+                <div class="flex gap-6">
+                    <label class="flex gap-2 items-center cursor-pointer">
+                        <input class="radio radio-primary" type="radio" name="attractiveTypeCode" value="1" checked>
+                        <i class="fa-regular fa-face-smile-wink text-primary-focus"></i>
+                        <span>외모</span>
+                    </label>
+
+                    <label class="flex gap-2 items-center cursor-pointer">
+                        <input class="radio radio-primary" type="radio" name="attractiveTypeCode" value="2">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                        <span>성격</span>
+                    </label>
+
+                    <label class="flex gap-2 items-center cursor-pointer">
+                        <input class="radio radio-primary" type="radio" name="attractiveTypeCode" value="3">
+                        <i class="fa-solid fa-coins text-warning"></i>
+                        <span>능력</span>
                     </label>
                 </div>
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">성격</span>
-                        <input type="radio" name="attractiveTypeCode" value="2" class="radio focus:bg-red-100">
-                    </label>
-                </div>
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">능력</span>
-                        <input type="radio" name="attractiveTypeCode" value="3" class="radio focus:bg-red-100">
-                    </label>
-                </div>
             </div>
-            <div>
-                <input type="submit" value="추가" class="btn btn-primary">
-            </div>
+
+            <button class="btn btn-block btn-primary gap-1">
+                <i class="fa-solid fa-plus"></i>
+                <span>추가하기</span>
+            </button>
         </form>
     </th:block>
 </main>
