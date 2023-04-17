@@ -17,7 +17,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @EntityListeners(AuditingEntityListener.class)
 @ToString
 @Entity
-@Setter
 @Getter
 public class LikeablePerson {
     @Id
@@ -46,5 +45,9 @@ public class LikeablePerson {
             case 2 -> "성격";
             default -> "능력";
         };
+    }
+
+    public void updateAttractiveTypeCode(int attractiveTypeCode) {
+        this.attractiveTypeCode = attractiveTypeCode;
     }
 }

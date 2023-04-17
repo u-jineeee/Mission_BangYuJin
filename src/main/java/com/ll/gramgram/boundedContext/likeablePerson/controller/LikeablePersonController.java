@@ -44,7 +44,7 @@ public class LikeablePersonController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/add")
     public String add(@Valid AddForm addForm) {
-        RsData<LikeablePerson> createRsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
+        RsData createRsData = likeablePersonService.like(rq.getMember(), addForm.getUsername(), addForm.getAttractiveTypeCode());
 
         if (createRsData.isFail()) {
             return rq.historyBack(createRsData);
@@ -73,7 +73,7 @@ public class LikeablePersonController {
     public String delete(@PathVariable("id") Long id){
         LikeablePerson likeablePerson = likeablePersonService.findById(id).orElse(null);
 
-        RsData<LikeablePerson> deleteRsData = likeablePersonService.delete(rq.getMember(), likeablePerson);
+        RsData deleteRsData = likeablePersonService.delete(rq.getMember(), likeablePerson);
 
         if(deleteRsData.isFail()) return rq.historyBack(deleteRsData);
 
