@@ -45,51 +45,55 @@
         }
     </script>
 
-    <h1 class="mb-4">
-        <i class="fa-solid fa-arrow-right-to-bracket"></i>
-        로그인
-    </h1>
-
-    <form th:action method="POST" class="flex flex-col gap-6" onsubmit="LoginForm__submit(this); return false;">
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">아이디</span>
-            </label>
-            <input type="text" name="username" maxlength="30" placeholder="아이디" class="input input-bordered"
-                   autofocus/>
-        </div>
-
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">비밀번호</span>
-            </label>
-            <input type="password" name="password" maxlength="30" placeholder="비밀번호" class="input input-bordered"/>
-        </div>
-
-        <button class="btn btn-block btn-primary gap-3">
+    <div class="max-w-2xl w-full px-4">
+        <h1 class="mb-4">
             <i class="fa-solid fa-arrow-right-to-bracket"></i>
-            <span>로그인</span>
-        </button>
+            로그인
+        </h1>
 
-        <a href="/oauth2/authorization/kakao" class="btn btn-block !bg-[#FEE500] !text-[#000000] !border-[#FEE500] gap-3">
-            <i class="fa-solid fa-comment text-[#000000]"></i>
-            <span>카카오 로그인</span>
-        </a>
+        <form th:action method="POST" class="flex flex-col gap-6" onsubmit="LoginForm__submit(this); return false;">
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">아이디</span>
+                </label>
+                <input type="text" name="username" maxlength="30" placeholder="아이디" class="input input-bordered"
+                       autofocus/>
+            </div>
 
-        <a href="/oauth2/authorization/naver" class="btn btn-block !bg-[#03C75A] text-base-100 !border-[#03C75A] gap-3">
-            <i class="fa-solid fa-n text-white"></i>
-            <span>네이버 로그인</span>
-        </a>
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">비밀번호</span>
+                </label>
+                <input type="password" name="password" maxlength="30" placeholder="비밀번호" class="input input-bordered"/>
+            </div>
 
-        <a href="/oauth2/authorization/google" class="btn btn-block !bg-[#FFFFFF] !text-black gap-5">
-            <i class="fa-brands fa-google text-[#ff4000]"></i>
-            <span>구글 로그인</span>
-        </a>
-    </form>
-    <div class="flex justify-center flex-wrap">
-        <a href="/member/join" class="btn btn-link">회원가입</a>
-        <a href="#" class="btn btn-link">아이디 찾기</a>
-        <a href="#" class="btn btn-link">비밀번호 찾기</a>
+            <button class="btn btn-block btn-primary gap-3">
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                <span>로그인</span>
+            </button>
+
+            <a href="/oauth2/authorization/kakao"
+               class="btn btn-block !bg-[#FEE500] !text-[#000000] !border-[#FEE500] gap-3">
+                <i class="fa-solid fa-comment text-[#000000]"></i>
+                <span>카카오 로그인</span>
+            </a>
+
+            <a href="/oauth2/authorization/naver"
+               class="btn btn-block !bg-[#03C75A] !text-white !border-[#03C75A] gap-3">
+                <i class="fa-solid fa-n text-white"></i>
+                <span>네이버 로그인</span>
+            </a>
+
+            <a href="/oauth2/authorization/google" class="btn btn-block !bg-[#FFFFFF] !text-black gap-5">
+                <i class="fa-brands fa-google text-[#ff4000]"></i>
+                <span>구글 로그인</span>
+            </a>
+        </form>
+        <div class="flex justify-center flex-wrap">
+            <a href="/member/join" class="btn btn-link">회원가입</a>
+            <a href="#" class="btn btn-link">아이디 찾기</a>
+            <a href="#" class="btn btn-link">비밀번호 찾기</a>
+        </div>
     </div>
 </main>
 </body>

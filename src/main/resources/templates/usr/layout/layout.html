@@ -1,4 +1,4 @@
-<html>
+<html data-theme="valentine">
 
 <head>
 
@@ -59,7 +59,7 @@
                             </a>
                             <form class="!hidden" th:action="|/member/logout|" method="POST"></form>
                             <a href="/instaMember/connect"><i class="fa-brands fa-instagram"></i> 인스타 계정 입력</a>
-                            <a href="/likeablePerson/add"><i class="fa-solid fa-heart-circle-plus"></i> 호감표시</a>
+                            <a href="/likeablePerson/like"><i class="fa-solid fa-heart-circle-plus"></i> 호감표시</a>
                             <a href="/likeablePerson/list"><i class="fa-solid fa-list-ol"></i> 호감목록</a>
                         </li>
                     </ul>
@@ -93,11 +93,7 @@
 
 <br>
 
-<div class="flex justify-center">
-    <div class="max-w-2xl w-full px-10">
-        <main layout:fragment="main"></main>
-    </div>
-</div>
+<main layout:fragment="main" class="flex-grow flex items-center justify-center"></main>
 
 <script th:inline="javascript">
     // 타임리프 문법(파라미터, ? 뒤에 입력된 매개변수들)

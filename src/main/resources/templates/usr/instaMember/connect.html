@@ -37,51 +37,58 @@
         }
     </script>
 
-    <h1 class="mb-4">
-        <i class="fa-brands fa-instagram"></i>
-        인스타 계정 입력
-    </h1>
-    <form th:action method="POST" class="flex flex-col gap-6"
-          onsubmit="ConnectForm__submit(this); return false;">
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">인스타그램 계정</span>
-            </label>
-            <input type="text" name="username" placeholder="인스타그램 계정" class="input input-bordered" autofocus onchange="$(this).keyup();" onkeyup="$(this).next().children(':last-child').text(this.value.trim());" onpaste="setTimeoutZero() => $(this).keyup();" />
-            <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank" class="block mt-3 text-sm break-all">
-                <span class="link text-blue-600">https://instagram.com/</span><span class="link text-orange-500"></span>
-            </a>
-            <script>
-                $('input[name="username"]:last').keyup();
-            </script>
-        </div>
-
-        <div class="form-control">
-            <label class="label">
-                <span class="label-text">성별</span>
-            </label>
-
-            <!-- 라벨을 클릭하면 라벨의 하위요소인 버튼(체크,라디오,일반 등)이 클릭되는 효과) -->
-            <div class="flex gap-6">
-                <label class="flex gap-2 items-center cursor-pointer">
-                    <input class="radio radio-primary peer" type="radio" name="gender" value="W" checked>
-                    <i class="fa-solid fa-venus peer-checked:text-orange-500"></i>
-                    <span class="peer-checked:text-[orange]">여성</span>
-                </label>
-
-                <label class="flex gap-2 items-center cursor-pointer">
-                    <input class="radio radio-primary peer" type="radio" name="gender" value="M">
-                    <i class="fa-solid fa-mars peer-checked:text-green-500"></i>
-                    <span class="peer-checked:text-[green]">남성</span>
-                </label>
-            </div>
-        </div>
-
-        <button class="btn btn-block btn-primary gap-1">
+    <div class="max-w-2xl w-full px-4">
+        <h1 class="mb-4">
             <i class="fa-brands fa-instagram"></i>
-            <span>인스타 계정 저장하기</span>
-        </button>
-    </form>
+            인스타 계정 입력
+        </h1>
+        <form th:action method="POST" class="flex flex-col gap-6"
+              onsubmit="ConnectForm__submit(this); return false;">
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">인스타그램 계정</span>
+                </label>
+                <input type="text" name="username" placeholder="인스타그램 계정" class="input input-bordered" autofocus
+                       onchange="$(this).keyup();"
+                       onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
+                       onpaste="setTimeoutZero() => $(this).keyup();"/>
+                <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank"
+                   class="block mt-3 text-sm break-all">
+                    <span class="link text-blue-600">https://instagram.com/</span><span
+                        class="link text-orange-500"></span>
+                </a>
+                <script>
+                    $('input[name="username"]:last').keyup();
+                </script>
+            </div>
+
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">성별</span>
+                </label>
+
+                <!-- 라벨을 클릭하면 라벨의 하위요소인 버튼(체크,라디오,일반 등)이 클릭되는 효과) -->
+                <div class="flex gap-6">
+                    <label class="flex gap-2 items-center cursor-pointer">
+                        <input class="radio radio-primary peer" type="radio" name="gender" value="W" checked>
+                        <i class="fa-solid fa-venus peer-checked:text-orange-500"></i>
+                        <span class="peer-checked:text-[orange]">여성</span>
+                    </label>
+
+                    <label class="flex gap-2 items-center cursor-pointer">
+                        <input class="radio radio-primary peer" type="radio" name="gender" value="M">
+                        <i class="fa-solid fa-mars peer-checked:text-green-500"></i>
+                        <span class="peer-checked:text-[green]">남성</span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn btn-block btn-primary gap-1">
+                <i class="fa-brands fa-instagram"></i>
+                <span>인스타 계정 저장하기</span>
+            </button>
+        </form>
+    </div>
 </main>
 </body>
 

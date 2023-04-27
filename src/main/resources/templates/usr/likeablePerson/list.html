@@ -8,10 +8,12 @@
 
 <mai layout:fragment="main">
     <th:block th:unless="${@rq.member.hasConnectedInstaMember}">
-        <div class="flex justify-center">먼저 본인의 인스타그램 아이디를 입력해주세요.</div>
+        <div class="max-w-2xl w-full px-4">
+            <div class="flex justify-center">먼저 본인의 인스타그램 아이디를 입력해주세요.</div>
 
-        <div class="flex justify-center">
-            <a href="/instaMember/connect" class="btn btn-link">본인의 인스타그램 아이디 입력하기</a>
+            <div class="flex justify-center">
+                <a href="/instaMember/connect" class="btn btn-link">본인의 인스타그램 아이디 입력하기</a>
+            </div>
         </div>
     </th:block>
 
