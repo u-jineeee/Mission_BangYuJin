@@ -32,7 +32,7 @@ public class LikeablePersonService {
             return modifyAttractive(member, username, attractiveTypeCode);
         }
 
-        if ( member.hasConnectedInstaMember() == false ) {
+        if (!member.hasConnectedInstaMember()) {
             return RsData.of("F-2", "먼저 본인의 인스타그램 계정을 입력해주세요.");
         }
 
@@ -78,6 +78,12 @@ public class LikeablePersonService {
         if(!Objects.equals(member.getInstaMember().getId(), likeablePerson.getFromInstaMember().getId())) {
             return RsData.of("F-2", "삭제 권한이 없습니다.");
         }
+
+        // 너가 생성한 좋아요가 사라졌어.
+        likeablePerson.getFromInstaMember().removeFromLikeablePerson(likeablePerson);
+
+        // 너가 받은 좋아요가 사라졌어.
+        likeablePerson.getToInstaMember().removeToLikeablePerson(likeablePerson);
 
         String toInstaMemberUsername = likeablePerson.getToInstaMember().getUsername();
         likeablePersonRepository.delete(likeablePerson);

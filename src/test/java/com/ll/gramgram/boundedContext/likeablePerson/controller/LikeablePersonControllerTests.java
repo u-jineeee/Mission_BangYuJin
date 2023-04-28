@@ -1,7 +1,10 @@
 package com.ll.gramgram.boundedContext.likeablePerson.controller;
 
 
+import com.ll.gramgram.base.appConfig.AppConfig;
 import com.ll.gramgram.boundedContext.likeablePerson.service.LikeablePersonService;
+import com.ll.gramgram.boundedContext.member.entity.Member;
+import com.ll.gramgram.boundedContext.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -28,7 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LikeablePersonControllerTests {
     @Autowired
     private MockMvc mvc;
-
+    @Autowired
+    private MemberService memberService;
     @Autowired
     private LikeablePersonService likeablePersonService;
 
@@ -238,9 +244,15 @@ public class LikeablePersonControllerTests {
     }
 
     @Test
-    @DisplayName("등록 처리 최대 개수 제한(user2 등록된 호감상대 10개, 최대 개수 10개)")
+    @DisplayName("호감 유저 등록 처리 최대 개수 제한")
     @WithUserDetails("user4")
     void t010() throws Exception {
+        Member memberUser4 = memberService.findByUsername("user4").get();
+
+        IntStream.range(0, (int) AppConfig.getLikeablePersonFromMax())
+                .forEach(index -> {
+                    likeablePersonService.like(memberUser4, "insta_user%30d".formatted(index), 1);
+                });
         // WHEN
         ResultActions resultActions = mvc
                 .perform(post("/likeablePerson/like")
