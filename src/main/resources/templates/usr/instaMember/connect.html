@@ -19,8 +19,8 @@
                 return;
             }
 
-            if (form.username.value.length < 4) {
-                toastWarning('인스타그램 아이디를 4자 이상 입력해주세요.');
+            if (form.username.value.length < 3) {
+                toastWarning('인스타그램 아이디를 3자 이상 입력해주세요.');
                 form.username.focus();
                 return;
             }
@@ -51,7 +51,7 @@
                 <input type="text" name="username" placeholder="인스타그램 계정" class="input input-bordered" autofocus
                        onchange="$(this).keyup();"
                        onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
-                       onpaste="setTimeoutZero() => $(this).keyup();"/>
+                       onpaste="setTimeoutZero(() => $(this).keyup());"/>
                 <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank"
                    class="block mt-3 text-sm break-all">
                     <span class="link text-blue-600">https://instagram.com/</span><span
@@ -70,20 +70,20 @@
                 <!-- 라벨을 클릭하면 라벨의 하위요소인 버튼(체크,라디오,일반 등)이 클릭되는 효과) -->
                 <div class="flex gap-6">
                     <label class="flex gap-2 items-center cursor-pointer">
-                        <input class="radio radio-primary peer" type="radio" name="gender" value="W" checked>
-                        <i class="fa-solid fa-venus peer-checked:text-orange-500"></i>
-                        <span class="peer-checked:text-[orange]">여성</span>
+                        <input type="radio" name="gender" value="W" class="radio radio-primary peer" checked>
+                        <i class="text-gray-600 fa-solid fa-venus peer-checked:text-orange-500"></i>
+                        <span class="text-gray-600 peer-checked:text-[orange]">여성</span>
                     </label>
 
                     <label class="flex gap-2 items-center cursor-pointer">
-                        <input class="radio radio-primary peer" type="radio" name="gender" value="M">
-                        <i class="fa-solid fa-mars peer-checked:text-green-500"></i>
-                        <span class="peer-checked:text-[green]">남성</span>
+                        <input type="radio" name="gender" value="M" class="radio radio-primary peer">
+                        <i class="text-gray-600 fa-solid fa-mars peer-checked:text-green-500"></i>
+                        <span class="text-gray-600 peer-checked:text-[green]">남성</span>
                     </label>
                 </div>
             </div>
 
-            <button class="btn btn-block btn-primary gap-1">
+            <button id="btn-insta-member-connect-1" class="btn btn-block btn-primary gap-1">
                 <i class="fa-brands fa-instagram"></i>
                 <span>인스타 계정 저장하기</span>
             </button>
