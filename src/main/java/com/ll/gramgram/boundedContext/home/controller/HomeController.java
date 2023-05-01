@@ -16,7 +16,7 @@ public class HomeController {
         return "usr/home/main";
     }
 
-    @GetMapping("/debugSession")
+    @GetMapping("/usr/debugSession")
     @ResponseBody
     public String showDebugSession(HttpSession session) {
         StringBuilder sb = new StringBuilder("Session content:\n");
