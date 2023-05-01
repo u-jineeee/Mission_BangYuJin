@@ -32,8 +32,8 @@
                     return;
                 }
 
-                if (form.username.value.length < 4) {
-                    toastWarning('상대방의 인스타그램 아이디를 4자 이상 입력해주세요.');
+                if (form.username.value.length < 3) {
+                    toastWarning('상대방의 인스타그램 아이디를 3자 이상 입력해주세요.');
                     form.username.focus();
                     return;
                 }
@@ -72,10 +72,19 @@
                 </div>
                 <div class="form-control">
                     <label class="label">
-                        <span class="label-text">인스타그램 계정</span>
+                        <span class="label-text">상대방 인스타그램 계정</span>
                     </label>
-                    <input type="text" name="username" placeholder="상대방의 인스타그램 계정" class="input input-bordered"
-                           autofocus/>
+                    <input type="text" name="username" placeholder="인스타그램 계정" class="input input-bordered"
+                           autofocus onchange="$(this).keyup();"
+                           onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
+                           onpaste="setTimeoutZero(() => $(this).keyup());"/>
+                    <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank"
+                       class="block mt-3 text-sm break-all underline text-blue-600">
+                        <span>https://instagram.com/</span><span class="text-orange-500"></span>
+                    </a>
+                    <script>
+                        $(`input[name="username"]:last`).keyup();
+                    </script>
                 </div>
 
                 <div class="form-control">
@@ -100,7 +109,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn-block btn-primary gap-1">
+                <button id="btn-like-1" class="btn btn-block btn-primary gap-1">
                     <i class="fa-solid fa-plus"></i>
                     <span>추가하기</span>
                 </button>

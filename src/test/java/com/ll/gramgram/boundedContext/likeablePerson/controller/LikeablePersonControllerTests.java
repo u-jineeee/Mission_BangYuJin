@@ -84,6 +84,9 @@ public class LikeablePersonControllerTests {
                 .andExpect(content().string(containsString("""
                         <input class="radio radio-primary" type="radio" name="attractiveTypeCode" value="3"
                         """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        id="btn-like-1"
+                        """.stripIndent().trim())));
         ;
     }
 
