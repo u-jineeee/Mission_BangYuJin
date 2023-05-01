@@ -1,7 +1,7 @@
 <html layout:decorate="~{usr/layout/layout.html}">
 
 <head>
-    <title>당신이 좋아하는 사람이 누군지 알려주세요.</title>
+    <title>호감 표시</title>
 </head>
 
 <body>
@@ -79,7 +79,7 @@
                            onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
                            onpaste="setTimeoutZero(() => $(this).keyup());"/>
                     <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank"
-                       class="block mt-3 text-sm break-all underline text-blue-600">
+                       class="block mt-3 text-sm break-all underline text-blue-500">
                         <span>https://instagram.com/</span><span class="text-orange-500"></span>
                     </a>
                     <script>

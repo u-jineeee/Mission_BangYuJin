@@ -47,6 +47,14 @@ public class LikeablePerson {
         };
     }
 
+    public String getAttractiveTypeDisplayNameWithIcon() {
+        return switch (attractiveTypeCode) {
+            case 1 -> "<i class=\"fa-regular fa-face-smile-wink text-primary-focus\"></i>";
+            case 2 -> "<i class=\"fa-solid fa-handshake-angle\"></i>";
+            default -> "<i class=\"fa-solid fa-coins text-warning\"></i>";
+        } + "&nbsp;" + getAttractiveTypeDisplayName();
+    }
+
     public void updateAttractiveTypeCode(int attractiveTypeCode) {
         this.attractiveTypeCode = attractiveTypeCode;
     }
