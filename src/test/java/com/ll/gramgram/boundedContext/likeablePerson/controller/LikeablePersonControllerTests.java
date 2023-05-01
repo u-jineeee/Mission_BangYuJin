@@ -147,22 +147,21 @@ public class LikeablePersonControllerTests {
                 .andExpect(handler().methodName("showList"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(content().string(containsString("""
-                        <span class="toInstaMember_username">insta_user4</span>
+                        data-test="toInstaMember_username=insta_user4"
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
-                        <span class="toInstaMember_attractiveTypeDisplayName">외모</span>
+                        data-test="toInstaMember_attractiveTypeDisplayName=외모"
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
-                        <span class="toInstaMember_username">insta_user100</span>
+                        data-test="toInstaMember_username=insta_user100"
                         """.stripIndent().trim())))
                 .andExpect(content().string(containsString("""
-                        <span class="toInstaMember_attractiveTypeDisplayName">성격</span>
-                        """.stripIndent().trim())))
-        ;
+                        data-test="toInstaMember_attractiveTypeDisplayName=성격"
+                        """.stripIndent().trim())));
     }
 
     @Test
-    @DisplayName("호감 상대 삭제")
+    @DisplayName("호감 취소")
     @WithUserDetails("user3")
     void t006() throws Exception {
         // WHEN
@@ -178,7 +177,7 @@ public class LikeablePersonControllerTests {
                 .andExpect(handler().handlerType(LikeablePersonController.class))
                 .andExpect(handler().methodName("delete"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrlPattern("/likeablePerson/list**"))
+                .andExpect(redirectedUrlPattern("/usr/likeablePerson/list**"))
         ;
 
         assertThat(likeablePersonService.findById(1L).isPresent()).isEqualTo(false);
