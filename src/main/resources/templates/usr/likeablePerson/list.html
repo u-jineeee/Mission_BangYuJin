@@ -8,21 +8,20 @@
 
 <main layout:fragment="main">
     <div class="max-w-2xl w-full px-4">
-        <th:block th:unless="${@rq.member.hasConnectedInstaMember}">
-            <div>먼저 본인의 인스타그램 아이디를 입력해주세요.</div>
-
-            <div>
-                <a href="/instaMember/connect" class="btn btn-link">본인의 인스타그램 아이디 입력하기</a>
-            </div>
-        </th:block>
-
+        <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="usr/part/needToConnect::base"></div>
         <th:block th:if="${@rq.member.hasConnectedInstaMember}">
-            <h1 class="mb-4">
+            <div th:unless="${!#lists.isEmpty(likeablePeople)}" class="text-center">
+                <div><i class="fa-solid fa-face-grin-hearts"></i>
+                    &nbsp;
+                    당신의 관심을 표현하세요.</div>
+            </div>
+
+        <h1 class="mb-4" th:if="${!#lists.isEmpty(likeablePeople)}">
                 <i class="fa-solid fa-list-ol"></i>
                 호감목록
             </h1>
 
-            <ul class="flex flex-col gap-4">
+            <ul th:if="${!#lists.isEmpty(likeablePeople)}" class="flex flex-col gap-4">
                 <li th:each="likeablePerson: ${likeablePeople}">
                     <div class="card bg-base-100 shadow-xl">
                         <div class="card-body">

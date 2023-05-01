@@ -68,7 +68,7 @@
             </div>
             <div class="navbar-center">
                 <a href="/" class="btn btn-ghost normal-case text-xl gap-1">
-                    <i class="fa-solid fa-fire" style="color: #ff7429;"></i>gramgram</a>
+                    gram<i class="fa-solid fa-heart fa-flip" style="color: #ff7024;"></i></i>gram</a>
             </div>
             <div class="navbar-end">
                 <button class="btn btn-ghost btn-circle">
@@ -82,12 +82,6 @@
                     </div>
                 </button>
             </div>
-        </div>
-        <div class="flex-grow flex justify-center">
-            <span th:if="${@rq.login}" th:text="|${@rq.member.username}님 환영합니다.|"></span>
-            <span th:if="${@rq.login and @rq.member.hasConnectedInstaMember()}"
-                  th:text="|(${#lists.size(@rq.member.instaMember.toLikeablePeople)}/${#lists.size(@rq.member.instaMember.fromLikeablePeople)})|">
-                </span>
         </div>
     </header>
 </main>
