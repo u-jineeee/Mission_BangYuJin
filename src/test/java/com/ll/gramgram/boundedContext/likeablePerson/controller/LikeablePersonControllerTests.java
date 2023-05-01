@@ -293,4 +293,36 @@ public class LikeablePersonControllerTests {
                 .andExpect(redirectedUrlPattern("/likeablePerson/list**"))
         ;
     }
+
+    @Test
+    @DisplayName("수정 폼")
+    @WithUserDetails("user3")
+    void t012() throws Exception {
+        // WHEN
+        ResultActions resultActions = mvc
+                .perform(get("/likeablePerson/modify/2"))
+                .andDo(print());
+
+        // THEN
+        resultActions
+                .andExpect(handler().handlerType(LikeablePersonController.class))
+                .andExpect(handler().methodName("showModify"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(content().string(containsString("""
+                        <input type="radio" name="attractiveTypeCode" value="1"
+                        """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        <input type="radio" name="attractiveTypeCode" value="2"
+                        """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        <input type="radio" name="attractiveTypeCode" value="3"
+                        """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        inputValue__attractiveTypeCode = 2;
+                        """.stripIndent().trim())))
+                .andExpect(content().string(containsString("""
+                        id="btn-modify-like-1"
+                        """.stripIndent().trim())));
+        ;
+    }
 }

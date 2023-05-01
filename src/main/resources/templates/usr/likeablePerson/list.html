@@ -37,18 +37,22 @@
                                                                          th:text="${likeablePerson.toInstaMember.username}"></span>
                             </a>
 
-                            <div class="mt-2">
+                            <div class="mt-4 mb-2 flex flex-col gap-2">
                                 <div class="badge badge-primary -ml-2">좋아하는 이유</div>
-                                <div class="mt-1" th:data-test="|toInstaMember_attractiveTypeDisplayName=${likeablePerson.attractiveTypeDisplayName}|"
+                                <div th:data-test="|toInstaMember_attractiveTypeDisplayName=${likeablePerson.attractiveTypeDisplayName}|"
                                      th:utext="${likeablePerson.attractiveTypeDisplayNameWithIcon}"></div>
                             </div>
 
-                            <div class="card-actions justify-end">
-                                <a class="btn btn-sm btn-outline gap-1">
-                                    <i class="fa-solid fa-heart-circle-exclamation text-primary-focus"></i>변경</a>
-                                <a class="btn btn-sm btn-outline gap-1" href="javascript:;"
+                            <div class="card-actions justify-center">
+                                <a th:href="@{|modify/${likeablePerson.id}|}" class="btn btn-sm btn-outline">
+                                    <i class="fa-solid fa-heart-circle-exclamation text-primary-focus"></i>
+                                    &nbsp;
+                                    수정</a>
+                                <a class="btn btn-sm btn-outline" href="javascript:;"
                                    onclick="if ( confirm('정말로 취소하시겠습니까?') ) $(this).next().submit();">
-                                    <i class="fa-solid fa-heart-crack text-primary-focus"></i>취소</a>
+                                    <i class="fa-solid fa-heart-crack text-primary-focus"></i>
+                                    &nbsp;
+                                    취소</a>
                                 <form hidden th:action="@{|delete/${likeablePerson.id}|}" method="POST">
                                     <input type="hidden" name="_method" value="delete">
                                 </form>

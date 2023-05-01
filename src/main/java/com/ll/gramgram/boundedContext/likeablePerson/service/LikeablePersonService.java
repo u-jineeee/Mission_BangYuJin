@@ -139,8 +139,37 @@ public class LikeablePersonService {
 
         String beforeAttractiveType = fromLikeablePerson.getAttractiveTypeDisplayName();
         fromLikeablePerson.updateAttractiveTypeCode(attractiveTypeCode);
-        likeablePersonRepository.save(fromLikeablePerson);
+
         String afterAttractiveType = fromLikeablePerson.getAttractiveTypeDisplayName();
         return RsData.of("S-3", "%s님에 대한 호감정보가 %s에서 %s(으)로 수정되었습니다.".formatted(username, beforeAttractiveType,afterAttractiveType));
+    }
+
+    @Transactional
+    public RsData<LikeablePerson> modifyLike(Member actor, Long id, int attractiveTypeCode) {
+        LikeablePerson likeablePerson = findById(id).orElseThrow();
+        RsData canModifyRsData = canModifyLike(actor, likeablePerson);
+
+        if (canModifyRsData.isFail()) {
+            return canModifyRsData;
+        }
+
+        likeablePerson.updateAttractiveTypeCode(attractiveTypeCode);
+
+        return RsData.of("S-1", "좋아하는 이유를 수정하였습니다.");
+    }
+
+    public RsData canModifyLike(Member actor, LikeablePerson likeablePerson) {
+        if (!actor.hasConnectedInstaMember()) {
+            return RsData.of("F-1", "먼저 본인의 인스타그램 아이디를 입력해주세요.");
+        }
+
+        InstaMember fromInstaMember = actor.getInstaMember();
+
+        if (!Objects.equals(likeablePerson.getFromInstaMember().getId(), fromInstaMember.getId())) {
+            return RsData.of("F-2", "해당 호감표시를 취소할 권한이 없습니다.");
+        }
+
+
+        return RsData.of("S-1", "호감표시취소가 가능합니다.");
     }
 }
