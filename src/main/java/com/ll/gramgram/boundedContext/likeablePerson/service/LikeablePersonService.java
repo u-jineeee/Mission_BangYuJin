@@ -1,6 +1,9 @@
 package com.ll.gramgram.boundedContext.likeablePerson.service;
 
 import com.ll.gramgram.base.appConfig.AppConfig;
+import com.ll.gramgram.base.event.EventAfterLike;
+import com.ll.gramgram.base.event.EventAfterModifyAttractiveType;
+import com.ll.gramgram.base.event.EventBeforeCancelLike;
 import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
 import com.ll.gramgram.boundedContext.instaMember.service.InstaMemberService;
@@ -8,6 +11,7 @@ import com.ll.gramgram.boundedContext.likeablePerson.entity.LikeablePerson;
 import com.ll.gramgram.boundedContext.likeablePerson.repository.LikeablePersonRepository;
 import com.ll.gramgram.boundedContext.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,7 @@ import java.util.Optional;
 public class LikeablePersonService {
     private final LikeablePersonRepository likeablePersonRepository;
     private final InstaMemberService instaMemberService;
+    private final ApplicationEventPublisher publisher;
 
     @Transactional
     public RsData<LikeablePerson> like(Member member, String username, int attractiveTypeCode) {
@@ -60,7 +65,7 @@ public class LikeablePersonService {
         // 너를 좋아하는 유저의 호감표시가 생겼어.
         toInstaMember.addToLikeablePerson(likeablePerson);
 
-        toInstaMember.increaseLikesCount(fromInstaMember.getGender(), attractiveTypeCode);
+        publisher.publishEvent(new EventAfterLike(this, likeablePerson));
 
         return RsData.of("S-1", "인스타유저(%s)를 호감상대로 등록되었습니다.".formatted(username), likeablePerson);
     }
@@ -75,7 +80,7 @@ public class LikeablePersonService {
 
     @Transactional
     public RsData<LikeablePerson> delete(Member member, LikeablePerson likeablePerson) {
-        likeablePerson.getToInstaMember().decreaseLikesCount(likeablePerson.getFromInstaMember().getGender(), likeablePerson.getAttractiveTypeCode());
+        publisher.publishEvent(new EventBeforeCancelLike(this, likeablePerson));
 
         if(likeablePerson == null) return RsData.of("F-1", "이미 삭제되었습니다.");
 
@@ -142,7 +147,7 @@ public class LikeablePersonService {
                 .orElse(null);
 
         String beforeAttractiveType = fromLikeablePerson.getAttractiveTypeDisplayName();
-        fromLikeablePerson.updateAttractiveTypeCode(attractiveTypeCode);
+        modifyAttractionTypeCode(fromLikeablePerson, attractiveTypeCode);
 
         String afterAttractiveType = fromLikeablePerson.getAttractiveTypeDisplayName();
         return RsData.of("S-3", "%s님에 대한 호감정보가 %s에서 %s(으)로 수정되었습니다.".formatted(username, beforeAttractiveType,afterAttractiveType));
@@ -157,9 +162,18 @@ public class LikeablePersonService {
             return canModifyRsData;
         }
 
-        likeablePerson.updateAttractiveTypeCode(attractiveTypeCode);
+        modifyAttractionTypeCode(likeablePerson, attractiveTypeCode);
 
         return RsData.of("S-1", "좋아하는 이유를 수정하였습니다.");
+    }
+
+    private void modifyAttractionTypeCode(LikeablePerson likeablePerson, int attractiveTypeCode) {
+        int oldAttractiveTypeCode = likeablePerson.getAttractiveTypeCode();
+        RsData rsData = likeablePerson.updateAttractionTypeCode(attractiveTypeCode);
+
+        if (rsData.isSuccess()) {
+            publisher.publishEvent(new EventAfterModifyAttractiveType(this, likeablePerson, oldAttractiveTypeCode, attractiveTypeCode));
+        }
     }
 
     public RsData canModifyLike(Member actor, LikeablePerson likeablePerson) {
