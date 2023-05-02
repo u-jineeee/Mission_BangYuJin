@@ -55,6 +55,13 @@ public class InstaMember extends InstaMemberBase {
         };
     }
 
+    public String getGenderDisplayNameWithIcon() {
+        return switch (gender) {
+            case "W" -> "<i class=\"fa-solid fa-venus\"></i>";
+            default -> "<i class=\"fa-solid fa-mars\"></i>";
+        } + "&nbsp;" + getGenderDisplayName();
+    }
+
     public void increaseLikesCount(String gender, int attractiveTypeCode) {
         if (gender.equals("W") && attractiveTypeCode == 1) likesCountByGenderWomanAndAttractiveTypeCode1++;
         if (gender.equals("W") && attractiveTypeCode == 2) likesCountByGenderWomanAndAttractiveTypeCode2++;
