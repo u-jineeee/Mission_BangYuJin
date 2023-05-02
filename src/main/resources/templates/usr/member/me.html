@@ -6,7 +6,7 @@
 
 <body>
 
-<main layout:fragment="main">
+<main layout:fragment="main" class="flex-grow flex items-center justify-center">
     <div th:unless="${@rq.member.hasConnectedInstaMember}" th:include="usr/part/needToConnect::base"></div>
 
     <div th:if="${@rq.member.hasConnectedInstaMember}" class="max-w-2xl w-full px-4">
