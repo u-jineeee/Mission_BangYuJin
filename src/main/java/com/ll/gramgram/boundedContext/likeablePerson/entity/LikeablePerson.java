@@ -55,7 +55,15 @@ public class LikeablePerson {
         } + "&nbsp;" + getAttractiveTypeDisplayName();
     }
 
-    public void updateAttractiveTypeCode(int attractiveTypeCode) {
+    public boolean updateAttractiveTypeCode(int attractiveTypeCode) {
+        if (this.attractiveTypeCode == attractiveTypeCode) {
+            return false;
+        }
+
+        toInstaMember.decreaseLikesCount(fromInstaMember.getGender(), this.attractiveTypeCode);
+        toInstaMember.increaseLikesCount(fromInstaMember.getGender(), attractiveTypeCode);
+
         this.attractiveTypeCode = attractiveTypeCode;
+        return true;
     }
 }
