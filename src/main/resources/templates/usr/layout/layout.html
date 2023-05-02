@@ -50,7 +50,7 @@
                     <ul tabindex="0"
                         class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                         <li th:if="${@rq.logout}">
-                            <a href="/usr/member/login"><i class="fa-solid fa-arrow-right-to-bracket"></i> 로그인</a>
+                            <a href="/usr/member/login"><i class="fa-solid fa-arrow-right-to-bracket"></i> 시작하기</a>
                         </li>
                         <li th:if="${@rq.login}">
                             <a href="/usr/member/me"><i class="fa-solid fa-house"></i> 내 정보</a>
@@ -60,7 +60,9 @@
                             <form class="!hidden" th:action="|/usr/member/logout|" method="POST"></form>
                             <a href="/usr/instaMember/connect"><i class="fa-brands fa-instagram"></i> 인스타 계정 입력</a>
                             <a href="/usr/likeablePerson/like"><i class="fa-solid fa-heart-circle-plus"></i> 호감표시</a>
-                            <a href="/usr/likeablePerson/list"><i class="fa-solid fa-list-ol"></i> 호감목록</a>
+                            <a href="/usr/likeablePerson/list"><i class="fa-solid fa-bars"></i> 호감목록</a>
+                        </li>
+                        <li><a href="/usr/home/about"><i class="fa-solid fa-heart"></i> 그램그램이란?</a>
                         </li>
                     </ul>
                 </div>
