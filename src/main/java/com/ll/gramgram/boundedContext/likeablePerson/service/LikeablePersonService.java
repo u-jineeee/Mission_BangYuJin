@@ -136,9 +136,43 @@ public class LikeablePersonService {
         return RsData.of("S-1","%s님에 대한 호감표시가 가능합니다.".formatted(username));
     }
 
-    private RsData<LikeablePerson> modifyAttractive(Member member, String username, int attractiveTypeCode) {
+    public Optional<LikeablePerson> findByFromInstaMember_usernameAndToInstaMember_username(String fromInstaMemberUsername, String toInstaMemberUsername) {
+        return likeablePersonRepository.findByFromInstaMember_usernameAndToInstaMember_username(fromInstaMemberUsername, toInstaMemberUsername);
+    }
 
-        List<LikeablePerson> fromLikeablePeople = member.getInstaMember().getFromLikeablePeople();
+    @Transactional
+    public RsData<LikeablePerson> modifyAttractive(Member actor, Long id, int attractiveTypeCode) {
+        Optional<LikeablePerson> likeablePersonOptional = findById(id);
+
+        if (likeablePersonOptional.isEmpty()) {
+            return RsData.of("F-1", "존재하지 않는 호감정보입니다.");
+        }
+
+        LikeablePerson likeablePerson = likeablePersonOptional.get();
+
+        return modifyAttractive(actor, likeablePerson, attractiveTypeCode);
+    }
+
+    private RsData<LikeablePerson> modifyAttractive(Member actor, LikeablePerson likeablePerson, int attractiveTypeCode) {
+        RsData canModifyRsData = canModifyLike(actor, likeablePerson);
+
+        if (canModifyRsData.isFail()) {
+            return canModifyRsData;
+        }
+
+        String oldAttractiveTypeDisplayName = likeablePerson.getAttractiveTypeDisplayName();
+        String username = likeablePerson.getToInstaMember().getUsername();
+
+        modifyAttractionTypeCode(likeablePerson, attractiveTypeCode);
+
+        String newAttractiveTypeDisplayName = likeablePerson.getAttractiveTypeDisplayName();
+
+        return RsData.of("S-3", "%s님에 대한 호감정보를 %s에서 %s(으)로 수정되었습니다.".formatted(username, oldAttractiveTypeDisplayName, newAttractiveTypeDisplayName), likeablePerson);
+    }
+
+    private RsData<LikeablePerson> modifyAttractive(Member actor, String username, int attractiveTypeCode) {
+        // 액터가 생성한 `좋아요` 들 가져오기
+        List<LikeablePerson> fromLikeablePeople = actor.getInstaMember().getFromLikeablePeople();
 
         LikeablePerson fromLikeablePerson = fromLikeablePeople
                 .stream()
@@ -146,26 +180,13 @@ public class LikeablePersonService {
                 .findFirst()
                 .orElse(null);
 
-        String beforeAttractiveType = fromLikeablePerson.getAttractiveTypeDisplayName();
-        modifyAttractionTypeCode(fromLikeablePerson, attractiveTypeCode);
-
-        String afterAttractiveType = fromLikeablePerson.getAttractiveTypeDisplayName();
-        return RsData.of("S-3", "%s님에 대한 호감정보가 %s에서 %s(으)로 수정되었습니다.".formatted(username, beforeAttractiveType,afterAttractiveType));
-    }
-
-    @Transactional
-    public RsData<LikeablePerson> modifyLike(Member actor, Long id, int attractiveTypeCode) {
-        LikeablePerson likeablePerson = findById(id).orElseThrow();
-        RsData canModifyRsData = canModifyLike(actor, likeablePerson);
-
-        if (canModifyRsData.isFail()) {
-            return canModifyRsData;
+        if (fromLikeablePerson == null) {
+            return RsData.of("F-7", "호감표시를 하지 않았습니다.");
         }
 
-        modifyAttractionTypeCode(likeablePerson, attractiveTypeCode);
-
-        return RsData.of("S-1", "좋아하는 이유를 수정하였습니다.");
+        return modifyAttractive(actor, fromLikeablePerson, attractiveTypeCode);
     }
+
 
     private void modifyAttractionTypeCode(LikeablePerson likeablePerson, int attractiveTypeCode) {
         int oldAttractiveTypeCode = likeablePerson.getAttractiveTypeCode();
@@ -184,10 +205,10 @@ public class LikeablePersonService {
         InstaMember fromInstaMember = actor.getInstaMember();
 
         if (!Objects.equals(likeablePerson.getFromInstaMember().getId(), fromInstaMember.getId())) {
-            return RsData.of("F-2", "해당 호감표시를 취소할 권한이 없습니다.");
+            return RsData.of("F-2", "해당 호감정보를 취소할 권한이 없습니다.");
         }
 
 
-        return RsData.of("S-1", "호감표시취소가 가능합니다.");
+        return RsData.of("S-1", "호감정보 취소가 가능합니다.");
     }
 }
