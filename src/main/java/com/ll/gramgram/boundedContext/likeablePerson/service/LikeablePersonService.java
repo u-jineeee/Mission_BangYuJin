@@ -60,6 +60,8 @@ public class LikeablePersonService {
         // 너를 좋아하는 유저의 호감표시가 생겼어.
         toInstaMember.addToLikeablePerson(likeablePerson);
 
+        toInstaMember.increaseLikesCount(fromInstaMember.getGender(), attractiveTypeCode);
+
         return RsData.of("S-1", "인스타유저(%s)를 호감상대로 등록되었습니다.".formatted(username), likeablePerson);
     }
 
@@ -73,6 +75,8 @@ public class LikeablePersonService {
 
     @Transactional
     public RsData<LikeablePerson> delete(Member member, LikeablePerson likeablePerson) {
+        likeablePerson.getToInstaMember().decreaseLikesCount(likeablePerson.getFromInstaMember().getGender(), likeablePerson.getAttractiveTypeCode());
+
         if(likeablePerson == null) return RsData.of("F-1", "이미 삭제되었습니다.");
 
         if(!Objects.equals(member.getInstaMember().getId(), likeablePerson.getFromInstaMember().getId())) {
