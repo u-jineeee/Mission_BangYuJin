@@ -38,7 +38,7 @@
 <main class="flex flex-col">
     <header class="sticky top-0 z-50">
         <div class="navbar max-w-2xl mx-auto bg-base-100">
-            <div class="navbar-start">
+            <div class="!w-auto flex-grow">
                 <div class="dropdown">
                     <label tabindex="0" class="btn btn-ghost btn-circle">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -66,12 +66,16 @@
                     </ul>
                 </div>
             </div>
-            <div class="navbar-center">
+            <div>
                 <a href="/" class="btn btn-ghost normal-case text-xl gap-1">
-                    gram<i class="fa-solid fa-heart fa-flip" style="color: #ff7024;"></i></i>gram</a>
+                    <span class="hidden min-[341px]:inline">
+                        gram <i class="fa-solid fa-heart fa-flip" style="color: #ff7024;"></i> gram</span>
+                    <span th:if="${@rq.logout}" class="min-[341px]:hidden">gg</span>
+                    <span th:if="${@rq.login}" class="max-[250px]:hidden min-[341px]:hidden">gg</span>
+                </a>
             </div>
-            <div class="navbar-end">
-                <button class="btn btn-ghost btn-circle">
+            <div class="flex-grow flex justify-end">
+                <button class="btn btn-ghost btn-circle !hidden min-[300px]:!block">
                     <div class="indicator">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                              stroke="currentColor">
