@@ -5,15 +5,14 @@ import com.ll.gramgram.base.baseEntity.BaseEntity;
 import com.ll.gramgram.base.rsData.RsData;
 import com.ll.gramgram.boundedContext.instaMember.entity.InstaMember;
 import com.ll.gramgram.standard.util.Ut;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-
-import static jakarta.persistence.GenerationType.IDENTITY;
+import java.time.ZoneOffset;
 
 @Builder
 @NoArgsConstructor
@@ -43,7 +42,10 @@ public class LikeablePerson extends BaseEntity {
 
     // 초 단위에서 올림 해주세요.
     public String getModifyUnlockDateRemainStrHuman() {
-        return "2시간 16분";
+        LocalDateTime remainTime = modifyUnlockDate.minusSeconds(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        int hour = remainTime.getHour();
+        int min = remainTime.getMinute();
+        return "%d시간 %d분".formatted(hour, min);
     }
 
     public String getAttractiveTypeDisplayName() {
@@ -72,7 +74,7 @@ public class LikeablePerson extends BaseEntity {
         }
 
         this.attractiveTypeCode = attractiveTypeCode;
-        this.modifyUnlockDate = AppConfig.genLikeablePersonModifyUnlockDate();
+        this.modifyUnlockDate = AppConfig.getLikeablePersonModifyUnlockDate();
 
         return RsData.of("S-1", "성공");
     }
