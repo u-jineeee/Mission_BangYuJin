@@ -24,7 +24,7 @@
                                 <i class="fa-solid fa-arrow-right-from-bracket"></i> 로그아웃</a>
                             <form class="!hidden" th:action="|/usr/member/logout|" method="POST"></form>
                             <div th:if="${@rq.login}" class="divider"></div>
-                            <a href="/usr/instaMember/connect"><i class="fa-brands fa-instagram"></i> 인스타 계정 입력</a>
+                            <a href="/usr/instaMember/connectByApi"><i class="fa-brands fa-instagram"></i> 인스타 계정 연결</a>
                             <a href="/usr/likeablePerson/like"><i class="fa-solid fa-heart-circle-plus"></i> 호감표시</a>
                             <a href="/usr/likeablePerson/list"><i class="fa-solid fa-list-ul"></i> 호감목록</a>
                             <div th:if="${@rq.login}" class="divider"></div>
@@ -36,7 +36,7 @@
                     </ul>
                 </div>
             </div>
-            <div  class="navbar-center">
+            <div class="navbar-center">
                 <a href="/" class="btn btn-ghost normal-case text-xl gap-1">
                     <span class="hidden min-[341px]:inline">
                         gram <i class="fa-solid fa-heart fa-flip" style="color: #ff7024;"></i> gram</span>
@@ -49,7 +49,7 @@
                 </a>
                 <a href="/usr/notification/list" class="btn btn-ghost btn-circle" th:if="${@rq.login}">
                     <div class="indicator">
-                    <i class="fa-regular fa-bell"></i>
+                        <i class="fa-regular fa-bell"></i>
                         <span th:if="${@rq.login}" class="badge badge-xs badge-primary indicator-item"></span>
                     </div>
                 </a>

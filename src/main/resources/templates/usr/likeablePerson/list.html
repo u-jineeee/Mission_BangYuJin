@@ -13,10 +13,11 @@
             <div th:unless="${!#lists.isEmpty(likeablePeople)}" class="text-center">
                 <div><i class="fa-solid fa-face-grin-hearts"></i>
                     &nbsp;
-                    당신의 관심을 표현하세요.</div>
+                    당신의 관심을 표현하세요.
+                </div>
             </div>
 
-        <h1 class="mb-4" th:if="${!#lists.isEmpty(likeablePeople)}">
+            <h1 class="mb-4" th:if="${!#lists.isEmpty(likeablePeople)}">
                 <i class="fa-solid fa-list-ol"></i>
                 호감목록
             </h1>
@@ -83,7 +84,8 @@
                                     <input type="hidden" name="_method" value="delete">
                                 </form>
                             </div>
-                            <div th:unless="${likeablePerson.modifyUnlocked}" class="text-center text-gray-500 text-sm mt-2">
+                            <div th:unless="${likeablePerson.modifyUnlocked}"
+                                 class="text-center text-gray-500 text-sm mt-2">
                                 <span class="text-primary-focus">수정</span>과 <span
                                     class="text-primary-focus">취소</span>는 <span
                                     class="badge badge-primary"
