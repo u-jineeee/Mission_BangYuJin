@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -40,11 +41,14 @@ public class LikeablePerson extends BaseEntity {
         return modifyUnlockDate.isBefore(LocalDateTime.now());
     }
 
+    public void updateModifyUnlockDate(){
+        this.modifyUnlockDate = LocalDateTime.MIN;
+    }
     // 초 단위에서 올림 해주세요.
     public String getModifyUnlockDateRemainStrHuman() {
         LocalDateTime remainTime = modifyUnlockDate.minusSeconds(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
         int hour = remainTime.getHour();
-        int min = remainTime.getMinute();
+        int min = remainTime.getMinute() + 1;
         return "%d시간 %d분".formatted(hour, min);
     }
 

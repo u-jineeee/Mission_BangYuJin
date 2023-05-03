@@ -89,6 +89,9 @@ public class LikeablePersonService {
             return RsData.of("F-2", "삭제 권한이 없습니다.");
         }
 
+        if(likeablePerson.isModifyUnlocked())
+            likeablePerson.updateModifyUnlockDate();
+
         // 너가 생성한 좋아요가 사라졌어.
         likeablePerson.getFromInstaMember().removeFromLikeablePerson(likeablePerson);
 
@@ -200,6 +203,9 @@ public class LikeablePersonService {
     }
 
     public RsData canModifyLike(Member actor, LikeablePerson likeablePerson) {
+        if(likeablePerson.isModifyUnlocked())
+            likeablePerson.updateModifyUnlockDate();
+
         if (!actor.hasConnectedInstaMember()) {
             return RsData.of("F-1", "먼저 본인의 인스타그램 아이디를 입력해주세요.");
         }
