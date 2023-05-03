@@ -218,7 +218,7 @@ public class LikeablePersonServiceTests {
     @DisplayName("호감표시를 하면 쿨타임이 지정된다.")
     void t007() throws Exception {
         // 현재시점 기준에서 쿨타임이 다 차는 시간을 구한다.(미래)
-        LocalDateTime coolTime = AppConfig.genLikeablePersonModifyUnlockDate();
+        LocalDateTime coolTime = AppConfig.getLikeablePersonModifyUnlockDate();
 
         Member memberUser3 = memberService.findByUsername("user3").orElseThrow();
         // 호감표시를 생성한다.
@@ -235,7 +235,7 @@ public class LikeablePersonServiceTests {
     @DisplayName("호감사유를 변경하면 쿨타임이 갱신된다.")
     void t008() throws Exception {
         // 현재시점 기준에서 쿨타임이 다 차는 시간을 구한다.(미래)
-        LocalDateTime coolTime = AppConfig.genLikeablePersonModifyUnlockDate();
+        LocalDateTime coolTime = AppConfig.getLikeablePersonModifyUnlockDate();
 
         Member memberUser3 = memberService.findByUsername("user3").orElseThrow();
         // 호감표시를 생성한다.
