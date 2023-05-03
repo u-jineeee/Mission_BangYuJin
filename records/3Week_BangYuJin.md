@@ -1,4 +1,4 @@
-## Title: [2Week] Bang YuJin
+## Title: [3Week] Bang YuJin
 
 ### 📄 미션 요구사항 분석 & 체크리스트
 
