@@ -48,8 +48,9 @@ public class LikeablePerson extends BaseEntity {
     public String getModifyUnlockDateRemainStrHuman() {
         LocalDateTime remainTime = modifyUnlockDate.minusSeconds(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
         int hour = remainTime.getHour();
-        int min = remainTime.getMinute() + 1;
-        return "%d시간 %d분".formatted(hour, min);
+        int min = remainTime.getMinute();
+        int seconds = remainTime.getSecond();
+        return "%d시간 %d분 %d초".formatted(hour, min, seconds);
     }
 
     public String getAttractiveTypeDisplayName() {
