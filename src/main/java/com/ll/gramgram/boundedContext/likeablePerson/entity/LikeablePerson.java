@@ -9,11 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Builder
 @NoArgsConstructor
@@ -46,11 +44,7 @@ public class LikeablePerson extends BaseEntity {
     }
     // 초 단위에서 올림 해주세요.
     public String getModifyUnlockDateRemainStrHuman() {
-        LocalDateTime remainTime = modifyUnlockDate.minusSeconds(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
-        int hour = remainTime.getHour();
-        int min = remainTime.getMinute();
-        int seconds = remainTime.getSecond();
-        return "%d시간 %d분 %d초".formatted(hour, min, seconds);
+        return Ut.time.diffFormat1Human(modifyUnlockDate, LocalDateTime.now());
     }
 
     public String getAttractiveTypeDisplayName() {

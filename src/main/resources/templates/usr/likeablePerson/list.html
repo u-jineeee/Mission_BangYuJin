@@ -18,7 +18,7 @@
             </div>
 
             <h1 class="mb-4" th:if="${!#lists.isEmpty(likeablePeople)}">
-                <i class="fa-solid fa-list-ol"></i>
+                <i class="fa-solid fa-list-ul"></i>
                 호감목록
             </h1>
 
@@ -100,8 +100,8 @@
         <div class="text-center mt-4">
             <a th:if="${@rq.member.hasConnectedInstaMember}" href="like" class="btn btn-link">
                 <span>
-                    <i class="fa-solid fa-list-ul"></i>
-                    호감목록&nbsp;
+                    <i class="fa-solid fa-heart-circle-plus"></i>
+                    호감표시&nbsp;
                 </span>
             </a>
             <a th:if="${@rq.member.hasConnectedInstaMember}" href="/usr/member/me" class="btn btn-link">

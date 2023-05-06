@@ -1,6 +1,5 @@
 package com.ll.gramgram.standard.util;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -8,10 +7,23 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Base64;
 
 public class Ut {
+    public static class time {
+        public static String diffFormat1Human(LocalDateTime time1, LocalDateTime time2) {
+            LocalDateTime remainTime = time1.minusSeconds(time2.toEpochSecond(ZoneOffset.UTC));
+
+            int hour = remainTime.getHour();
+            int min = remainTime.getMinute();
+            int seconds = remainTime.getSecond();
+
+            return "%d시간 %d분 %d초".formatted(hour, min, seconds);
+        }
+    }
     public static class reflection {
         public static boolean setFieldValue(Object o, String fieldName, Object value) {
             Field field = null;
