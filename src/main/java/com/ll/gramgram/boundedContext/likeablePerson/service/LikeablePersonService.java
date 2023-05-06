@@ -37,14 +37,6 @@ public class LikeablePersonService {
             return modifyAttractive(member, username, attractiveTypeCode);
         }
 
-        if (!member.hasConnectedInstaMember()) {
-            return RsData.of("F-2", "먼저 본인의 인스타그램 계정을 입력해주세요.");
-        }
-
-        if (member.getInstaMember().getUsername().equals(username)) {
-            return RsData.of("F-1", "본인을 호감상대로 등록할 수 없습니다.");
-        }
-
         InstaMember fromInstaMember = member.getInstaMember();
         InstaMember toInstaMember = instaMemberService.findByUsernameOrCreate(username).getData();
 
@@ -83,14 +75,15 @@ public class LikeablePersonService {
     public RsData<LikeablePerson> delete(Member member, LikeablePerson likeablePerson) {
         publisher.publishEvent(new EventBeforeCancelLike(this, likeablePerson));
 
-        if(likeablePerson == null) return RsData.of("F-1", "이미 삭제되었습니다.");
+        if(likeablePerson == null) return RsData.of("F-1", "이미 취소되었습니다.");
 
         if(!Objects.equals(member.getInstaMember().getId(), likeablePerson.getFromInstaMember().getId())) {
-            return RsData.of("F-2", "삭제 권한이 없습니다.");
+            return RsData.of("F-2", "취소 권한이 없습니다.");
         }
 
-        if(likeablePerson.isModifyUnlocked())
-            likeablePerson.updateModifyUnlockDate();
+        if(!likeablePerson.isModifyUnlocked()) {
+            return RsData.of("F-3", "%s 후에 취소가 가능합니다.".formatted(likeablePerson.getModifyUnlockDateRemainStrHuman()));
+        }
 
         // 너가 생성한 좋아요가 사라졌어.
         likeablePerson.getFromInstaMember().removeFromLikeablePerson(likeablePerson);
@@ -101,7 +94,7 @@ public class LikeablePersonService {
         String toInstaMemberUsername = likeablePerson.getToInstaMember().getUsername();
         likeablePersonRepository.delete(likeablePerson);
 
-        return RsData.of("S-1", "%s님이 삭제되었습니다.".formatted(toInstaMemberUsername));
+        return RsData.of("S-1", "%s님이 취소되었습니다.".formatted(toInstaMemberUsername));
     }
 
     public RsData canLike(Member actor, String username, int attractiveTypeCode) {
@@ -159,7 +152,7 @@ public class LikeablePersonService {
 
     @Transactional
     public RsData<LikeablePerson> modifyAttractive(Member actor, LikeablePerson likeablePerson, int attractiveTypeCode) {
-        RsData canModifyRsData = canModifyLike(actor, likeablePerson);
+        RsData canModifyRsData = canModify(actor, likeablePerson);
 
         if (canModifyRsData.isFail()) {
             return canModifyRsData;
@@ -202,10 +195,7 @@ public class LikeablePersonService {
         }
     }
 
-    public RsData canModifyLike(Member actor, LikeablePerson likeablePerson) {
-        if(likeablePerson.isModifyUnlocked())
-            likeablePerson.updateModifyUnlockDate();
-
+    public RsData canModify(Member actor, LikeablePerson likeablePerson) {
         if (!actor.hasConnectedInstaMember()) {
             return RsData.of("F-1", "먼저 본인의 인스타그램 아이디를 입력해주세요.");
         }
@@ -214,6 +204,10 @@ public class LikeablePersonService {
 
         if (!Objects.equals(likeablePerson.getFromInstaMember().getId(), fromInstaMember.getId())) {
             return RsData.of("F-2", "해당 호감정보를 취소할 권한이 없습니다.");
+        }
+
+        if(!likeablePerson.isModifyUnlocked()) {
+            return RsData.of("F-3", "%s 후에 수정이 가능합니다.".formatted(likeablePerson.getModifyUnlockDateRemainStrHuman()));
         }
 
 
