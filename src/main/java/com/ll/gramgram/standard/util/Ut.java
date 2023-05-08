@@ -1,5 +1,8 @@
 package com.ll.gramgram.standard.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -8,22 +11,44 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Map;
 
 public class Ut {
-    public static class time {
-        public static String diffFormat1Human(LocalDateTime time1, LocalDateTime time2) {
-            LocalDateTime remainTime = time1.minusSeconds(time2.toEpochSecond(ZoneOffset.UTC));
-
-            int hour = remainTime.getHour();
-            int min = remainTime.getMinute();
-            int seconds = remainTime.getSecond();
-
-            return "%d시간 %d분 %d초".formatted(hour, min, seconds);
+    public static class json {
+        public static String toStr(Map map) {
+            try {
+                return new ObjectMapper().writeValueAsString(map);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
+
+    public static class time {
+        public static String diffFormat1Human(LocalDateTime time1, LocalDateTime time2) {
+            String suffix = time1.isAfter(time2) ? "전" : "후";
+
+            long remainTime = ChronoUnit.SECONDS.between(time1, time2);
+
+            long seconds = remainTime % 60;
+            long minutes = remainTime / (60) % 60;
+            long hours = remainTime / (60 * 60) % 24;
+            long days = remainTime / (60 * 60 * 24);
+
+            StringBuilder sb = new StringBuilder();
+
+            if (days > 0) sb.append(days).append("일 ");
+            if (hours > 0) sb.append(hours).append("시간 ");
+            if (minutes > 0) sb.append(minutes).append("분 ");
+            if (seconds > 0) sb.append(seconds).append("초 ");
+
+            return sb.append(suffix).toString();
+        }
+    }
+
     public static class reflection {
         public static boolean setFieldValue(Object o, String fieldName, Object value) {
             Field field = null;

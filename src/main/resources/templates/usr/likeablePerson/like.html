@@ -70,14 +70,14 @@
                             <i class="fa-brands fa-instagram"></i>
                             상대방 인스타그램 계정</span>
                     </label>
-                    <input type="text" name="username" placeholder="인스타그램 계정" class="input input-bordered"
-                           autofocus onchange="$(this).keyup();"
-                           onkeyup="$(this).next().children(':last-child').text(this.value.trim());"
-                           onpaste="setTimeoutZero(() => $(this).keyup());"/>
                     <a href="#" onclick="$(this).attr('href', $(this).text().replaceAll(' ', ''));" target="_blank"
-                       class="block mt-3 text-sm break-all underline text-blue-500">
+                       class="block mb-3 text-sm break-all underline text-blue-500">
                         <span>https://instagram.com/</span><span class="text-orange-500"></span>
                     </a>
+                    <input type="text" name="username" placeholder="인스타그램 계정" class="input input-bordered"
+                           autofocus onchange="$(this).keyup();"
+                           onkeyup="$(this).prev().children(':last-child').text(this.value.trim());"
+                           onpaste="setTimeoutZero(() => $(this).keyup());"/>
                     <script>
                         $(`input[name="username"]:last`).keyup();
                     </script>

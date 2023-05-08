@@ -44,7 +44,7 @@ public class LikeablePerson extends BaseEntity {
     }
     // 초 단위에서 올림 해주세요.
     public String getModifyUnlockDateRemainStrHuman() {
-        return Ut.time.diffFormat1Human(modifyUnlockDate, LocalDateTime.now());
+        return Ut.time.diffFormat1Human(LocalDateTime.now(), modifyUnlockDate);
     }
 
     public String getAttractiveTypeDisplayName() {
@@ -57,9 +57,9 @@ public class LikeablePerson extends BaseEntity {
 
     public String getAttractiveTypeDisplayNameWithIcon() {
         return switch (attractiveTypeCode) {
-            case 1 -> "<i class=\"fa-regular fa-face-smile-wink text-primary-focus\"></i>";
-            case 2 -> "<i class=\"fa-solid fa-handshake-angle text-blue-400\"></i>";
-            default -> "<i class=\"fa-solid fa-coins text-warning\"></i>";
+            case 1 -> "<i class=\"fa-regular fa-face-smile-wink\"></i>";
+            case 2 -> "<i class=\"fa-solid fa-handshake-angle\"></i>";
+            default -> "<i class=\"fa-solid fa-coins\"></i>";
         } + "&nbsp;" + getAttractiveTypeDisplayName();
     }
 

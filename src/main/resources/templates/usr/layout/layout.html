@@ -24,7 +24,7 @@
                                 <i class="fa-solid fa-arrow-right-from-bracket"></i> 로그아웃</a>
                             <form class="!hidden" th:action="|/usr/member/logout|" method="POST"></form>
                             <div th:if="${@rq.login}" class="divider"></div>
-                            <a href="/usr/instaMember/connectByApi"><i class="fa-brands fa-instagram"></i> 인스타 계정 연결</a>
+                            <a href="/usr/instaMember/connect"><i class="fa-brands fa-instagram"></i> 인스타 계정 연결</a>
                             <a href="/usr/likeablePerson/like"><i class="fa-solid fa-heart-circle-plus"></i> 호감표시</a>
                             <a href="/usr/likeablePerson/list"><i class="fa-solid fa-list-ul"></i> 호감목록</a>
                             <div th:if="${@rq.login}" class="divider"></div>
