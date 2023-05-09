@@ -142,6 +142,15 @@ public class LikeablePersonController {
                 }
             }
 
+            if(attractiveTypeCode != 0) {
+                likeablePeopleStream = switch (attractiveTypeCode) {
+                    case 1 -> likeablePeopleStream.filter(e -> e.getAttractiveTypeCode() == 1);
+                    case 2 -> likeablePeopleStream.filter(e -> e.getAttractiveTypeCode() == 2);
+                    case 3 -> likeablePeopleStream.filter(e -> e.getAttractiveTypeCode() == 3);
+                    default -> likeablePeopleStream;
+                };
+            }
+
             List<LikeablePerson> likeablePeople = likeablePeopleStream.collect(Collectors.toList());
 
             model.addAttribute("likeablePeople", likeablePeople);
