@@ -33,10 +33,10 @@ public class Ut {
 
             long remainTime = ChronoUnit.SECONDS.between(time1, time2);
 
-            long seconds = remainTime % 60;
-            long minutes = remainTime / (60) % 60;
-            long hours = remainTime / (60 * 60) % 24;
-            long days = remainTime / (60 * 60 * 24);
+            long seconds = Math.abs(remainTime % 60);
+            long minutes = Math.abs(remainTime / (60) % 60);
+            long hours = Math.abs(remainTime / (60 * 60) % 24);
+            long days = Math.abs(remainTime / (60 * 60 * 24));
 
             StringBuilder sb = new StringBuilder();
 
